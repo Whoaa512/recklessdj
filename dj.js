@@ -1,1 +1,1 @@
-var Playlist = new Meteor.collection('playlist');
+var Playlist = new Meteor.Collection('playlist');
