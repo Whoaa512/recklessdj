@@ -6,6 +6,6 @@ Template.search.events({
 												}
 											});
 
-Template.playlist.songs = function () {
-  return songs.find().fetch();
+Template.playlist.song = function () {
+  return Playlist.find().fetch();
 };

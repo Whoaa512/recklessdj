@@ -1,1 +1,25 @@
 /* CSS declarations go here */
+
+body {
+font-family: Georgia;
+color: #333;
+}
+
+.search {
+	border-radius: 15%;
+}
+
+ul {
+	 list-style: none;
+}
+
+li {
+	 line-height: 1.5em;
+}
+li:hover {
+				 background: pink;
+}
+
+.playlist span {
+					margin: 50px;
+}

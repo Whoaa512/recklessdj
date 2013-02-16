@@ -13,7 +13,12 @@
 </template>
 
 <template name="playlist">
-	<ul>
+	<ul class="playlist">
+		<li>
+			<span class="label">title</span>
+			<span class="label">artist</span>
+			<span class="label">length</span>
+		</li>
 	{{#each song}}
 	<li>
 		<span class="title">{{title}}</span>
