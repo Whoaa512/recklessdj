@@ -3,13 +3,12 @@
 </head>
 
 <body>
+	<audio src="" autoplay controls></audio>
   {{> upload_file}}
-  {{> search}}
 	{{> playlist}}
 </body>
 
 <template name="search">
-  <h1>Hello World!</h1>
   <input type="text" class="search" />
 </template>
 
@@ -19,10 +18,10 @@
 
 <template name="playlist">
 	<ul class="playlist">
-		<li>
-			<span class="label">title</span>
-			<span class="label">artist</span>
-			<span class="label">length</span>
+		<li class="label">
+			<span>title</span>
+			<span>artist</span>
+			<span>length</span>
 		</li>
 	{{#each song}}
 	<li>

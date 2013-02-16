@@ -17,7 +17,12 @@ function openFilePicker (){
       services:['COMPUTER', 'DROPBOX', 'GMAIL', 'GOOGLE_DRIVE', 'URL'],
     },
     function(FPFile){
-      console.log(JSON.stringify(FPFile));
+      console.log(JSON.stringify(FPFile))
+			d3.select('audio').attr('src', FPFile.url)
+			FPFile.title = FPFile.filename
+			FPFile.artist = 'Abraham Linoln'
+			FPFile.length = '3:30'
+			Playlist.insert(FPFile);
     },
     function(FPError){
       console.log(FPError.toString());
