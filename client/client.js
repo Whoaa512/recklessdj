@@ -1,3 +1,4 @@
+
 Template.search.events({
 												'keydown .search' : function (e) {
 													if (e.which !== 13) return;
@@ -9,3 +10,17 @@ Template.search.events({
 Template.playlist.songs = function () {
   return songs.find().fetch();
 };
+
+function openFilePicker (){
+  filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
+  filepicker.pick({
+      services:['COMPUTER', 'DROPBOX', 'GMAIL', 'GOOGLE_DRIVE', 'URL'],
+    },
+    function(FPFile){
+      console.log(JSON.stringify(FPFile));
+    },
+    function(FPError){
+      console.log(FPError.toString());
+    }
+  );
+}

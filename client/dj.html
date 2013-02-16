@@ -3,6 +3,7 @@
 </head>
 
 <body>
+  {{> upload_file}}
   {{> search}}
 	{{> playlist}}
 </body>
@@ -10,6 +11,10 @@
 <template name="search">
   <h1>Hello World!</h1>
   <input type="text" class="search" />
+</template>
+
+<template name="upload_file">
+  <button onclick="openFilePicker()">
 </template>
 
 <template name="playlist">
