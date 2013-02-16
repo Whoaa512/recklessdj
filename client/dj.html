@@ -3,10 +3,23 @@
 </head>
 
 <body>
-  {{> hello}}
+  {{> search}}
+	{{> playlist}}
 </body>
 
-<template name="hello">
+<template name="search">
   <h1>Hello World!</h1>
-  <input type="button" class="search" />
+  <input type="text" class="search" />
+</template>
+
+<template name="playlist">
+	<ul>
+	{{#each song}}
+	<li>
+		<span class="title">{{title}}</span>
+		<span class="artist">{{artist}}</span>
+		<span class="length">{{length}}</span>
+	</li>
+	{{/each}}
+	<ul>
 </template>
