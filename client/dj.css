@@ -1,7 +1,60 @@
 /* CSS declarations go here */
 
+.pink{
+  background-color:#C70780;
+}
+.hero .pink-font{
+  color:#C70780;
+}
+
+.dark-blue{
+  background-color:#0C1153;
+}
+
+.dark-blue-font{
+  font-color:#0C1153;
+}
+
+.purple{
+  background-color:#5F005B;
+}
+
+.purple-font{
+  font-color:#5F005B;
+}
+
+.medium-blue{
+  background-color:#66C1DC;
+}
+
+.medium-blue-font{
+  font-color:#66C1DC;
+}
+
+.light-yellow{
+  background-color:#ECE1AD;
+}
+
+.light-yellow-font{
+  font-color:#ECE1AD;
+}
+
+.light-blue{
+  background-color:#A0E2FC;
+}
+
+.light-blue-font{
+  font-color:#A0E2FC;
+}
+
+.rounded-corners{
+  -moz-border-radius: 10px;
+  border-radius:10px;
+}
+
 body {
 font-family: Georgia;
+background-color:#0C1153;
 color: #333;
 }
 
@@ -24,4 +77,9 @@ li:hover {
 .playlist span {
 					margin: 100px;
 					width: 100px;
+}
+
+.dark-border {
+  border-style:solid;
+  border-color: #0C1153
 }
