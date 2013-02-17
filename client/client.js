@@ -115,10 +115,9 @@ Meteor.setTimeout(function () {
       this.each(function(index, file_field) {
         file_field = $(file_field);
         var label = file_field.attr("data-label") || "Choose File";
-
+        debugger;
         file_field.css({"display": "none"});
-        file_field.after("<div class=\"span6 nice_file_field input-append hero\"><input class=\"input span6 hero\" type=\"text\"><a class=\"btn\">" + label + "</a></div>");
-
+        file_field.after("<div class=\"span6 nice_file_field input-append  block-300-by-30px\"><input class=\"input fixed-width-150px hero\" type=\"text\"><a class=\"btn hero\">" + label + "</a></div>");
         var nice_file_field = file_field.next(".nice_file_field");
         nice_file_field.find("a").click( function(){ file_field.click() } );
         file_field.change( function(){

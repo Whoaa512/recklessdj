@@ -124,3 +124,13 @@ li:hover {
 .margin-top{
   margin-top: 10px;
 }
+
+.block-300-by-30px{
+  display:block;
+  height:30px;
+  width:300px;
+}
+
+.fixed-width-150px {
+  width:150px;
+}
