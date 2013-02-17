@@ -1,4 +1,5 @@
 var file;
+filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
 Template.search.events({
 												'keydown .search' : function (e) {
 													if (e.which !== 13) return;
@@ -10,8 +11,6 @@ Template.search.events({
 Template.playlist.song = function () {
   return Playlist.find().fetch();
 };
-
-
 function load_file (file) {
 	var id, obj;
 	var success = function(FPFile){
@@ -50,6 +49,5 @@ filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
 Template.upload_file.events({
 															'change input':  function (e) {
 																[].forEach.call(e.target.files, load_file, e.target)
-															}
-														})
-
+}
+})
