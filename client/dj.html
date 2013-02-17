@@ -27,8 +27,9 @@
       <div class="span6 light-blue">
         {{> playlist}}
       </div>
-      <div class="row-fluid">
-        <div class="span6 light-blue">
+      <div class="span6 light-blue">
+        <div class="row-fluid">
+          <ul>
   				{{> chat}}
         </div>
       </div>
@@ -38,14 +39,20 @@
 
 <template name="chat">
 	{{#each message}}
-	<div class="span6">	{{username}} : {{text}}	</div>
+	  <li>{{user}} : {{text}}</div>
 	{{/each}}
-	{{#if user}}
-	<span class="reset">{{user}}</span>
-	{{else}}
-  <input type="text" class="user" placeholder="your name here"/>
-	{{/if}}
-  <input type="text" class="message" placeholder="say something"/>
+  </ul>
+    {{#if user}}
+  <div class="row-fluid">
+    <span class="reset" >{{user}}</span>
+  {{else}}
+  <div class="span3">
+    <input type="text" class="user input-small" placeholder="your name here"/>  	
+  {{/if}}
+  </div>
+  <div class="span3">
+    <input type="text" class="message input-small" placeholder="say something"/>
+  </div>
 </template>
 
 <template name="upload_file">
