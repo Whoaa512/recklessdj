@@ -48,9 +48,14 @@ function draw () {
 													chart.datum(q).transition().duration(500)
 														.attr('d',l)
 			 })
-		var drag_node = d3.behavior.drag().on('drag', function () {
-																						d3.select(this).attr('cx', d3.mouse(d3.select('svg').node())[0])
-																					})
+		var drag_node = d3.behavior.drag()
+			.on('drag', function () {
+						d3.select(this).attr('cx', d3.mouse(d3.select('svg').node())[0])
+					})
+			.on('dragend', function (d) {
+						Playlist.update({_id:d._id}, {$set: {track: 1}})
+					})
+
 		var drag_line = d3.behavior.drag()
 		var l = d3.svg.line().interpolate('linear')
 		.x(function (d, i) { return x(i) })

@@ -4,7 +4,7 @@ var file;
 filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
 
 Template.playlist.song = function () {
-  var p= Playlist.find().fetch();
+  var p= Playlist.find({}, {sort: {order: 1}}).fetch();
 	return p.filter(function (d) {
 		var m = '' + ~~(d.duration / 60)
 		var s = '' + ~~(d.duration % 1 * 60)
@@ -51,6 +51,9 @@ function load_file (file) {
 }
 
 Template.playlist.events({
+													 'mouseover': function () {
+
+													 },
 	'contextmenu td': function (e) {
 		e.preventDefault()
 		Playlist.remove({_id:this._id})
@@ -129,5 +132,12 @@ Meteor.setTimeout(function () {
 })
 
 Meteor.startup(function(){
-  setTimeout(function(){$("#table1").tableDnD()}, 1000);
+  setTimeout(function(){$("#table1").tableDnD({onDragClass: 'drag',
+																								onDrop: function (table, row) {
+																									var i= $(table).children().find('tr').index(row)
+																									console.log(i)
+//																									Playlist.update({track: id}, {id: row.id })
+																									
+																								}
+																							})}, 1000);
 })
