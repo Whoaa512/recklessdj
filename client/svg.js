@@ -15,7 +15,7 @@ function draw () {
 		.range([300, 0])
 	
 	var line = d3.svg.line().interpolate('step-before')
-		.x(function (d,i){ return xscale(i) })
+		.x(function (d,i){ return x.scale(i) })
 		.y(function (d){ return yscale(d) })
 
 	var query = Playlist.find().fetch().filter(function (d){
@@ -32,7 +32,7 @@ function draw () {
 			.domain([d3.min(m), d3.max(m)])
 			.range([0, document.querySelector('svg').offsetHeight])
 		d3.select('svg').on('click', function (d) {
-				 console.log(x.copy().invert((d3.mouse(this)[0])));
+													y.copy().invert((d3.mouse(this)[1]))
 			 })
 	var l = d3.svg.line().interpolate('linear')
 		.x(function (d, i) { return x(i) })
