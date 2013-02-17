@@ -33,8 +33,8 @@ function draw () {
 			.range([0, document.querySelector('svg').offsetHeight])
 
 	d3.select('svg').on('click', function (d) {
-				 console.log(1231)
 				 console.log(x.copy().invert((d3.mouse(this)[0])));
+												
 			 })
 	var l = d3.svg.line().interpolate('linear')
 		.x(function (d, i) { return x(i) })

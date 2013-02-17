@@ -8,18 +8,20 @@
 
 <template name="main">
   <div class="container-fluid">
+  <div class="container-fluid inputContainer">
     <div class="row-fluid">
-      <div class="span12">
-        <div class="span4 well light-blue">
-          <h1 class="rounded-corners text-center pink-font">Im a hero</h1>
+      <div class="row-fluid">
+        <div class="span12">
+        <div class="span6 well light-blue ">
+          <h1 class="rounded-corners"><p class="pink-font">Reckless DJ<p></h1>
           <p class="pink-font">Stay Reckless my friends</p>
-          <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
           <audio src="" autoplay controls></audio>
           {{> upload_file}}
         </div>
-        <div class="span8">
+        <div class="span6">
           <svg></svg>
         </div>
+      </div>
       </div>
     <div class="row-fluid">
       <div class="span6 light-blue">
@@ -44,14 +46,8 @@
   <input type="text" class="message" placeholder="say something"/>
 </template>
 
-
-<template name="search">
-  <input type="text" class="search" />
-</template>
-
-
 <template name="upload_file">
-  <input type="file" multiple=""/>
+ <input id="document_field" type="file" data-label="Drop the Beats" multiple="">
 </template>
 
 <template name="playlist">
