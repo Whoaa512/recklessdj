@@ -51,6 +51,11 @@ Template.playlist.events({
 													 'click td': function () {
 														 console.log(this.url)
 														 $('audio').attr('src', this.url);
+},
+
+													 'contextmenu td': function (e) {
+														 e.preventDefault()
+														 Playlist.remove({_id:this._id})
 }
 })
 

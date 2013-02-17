@@ -31,22 +31,28 @@ function draw () {
 		var y = d3.scale.linear()
 			.domain([d3.min(m), d3.max(m)])
 			.range([0, document.querySelector('svg').offsetHeight])
-
-	d3.select('svg').on('click', function (d) {
+		d3.select('svg').on('click', function (d) {
 				 console.log(x.copy().invert((d3.mouse(this)[0])));
-												
 			 })
 	var l = d3.svg.line().interpolate('linear')
 		.x(function (d, i) { return x(i) })
 		.y(function (d) { return y(d) })
-		g.append('path').datum(m).attr({
+		var chart = g.append('path').datum(m).attr({
 																		 fill: 'none',
 																		 'stroke-width': 5,
 																		 'opacity': .5,
 																		 stroke: "hsl(" + Math.random() * 360 + ",100%,50%)",
 																		 d:l
 																	 })
-			.on('click', function (d){ console.log(d) })
+		var update = function () {
+			var m = _.pluck(this.results, d).filter(function (d ){ return d});
+			x.domain([0, m.length])
+			chart.datum(m).transition().duration(500)
+				.attr('d',l)
+		}
+		Playlist.find({}).observe({
+															added: update, changed: update, removed: update, moved: update
+														})
 	}
 	props.forEach(illustrate);
 	[].forEach(function (item, index) {
@@ -66,7 +72,7 @@ function draw () {
 		data.push(rand())
 		d3.select('.' + selector).datum(data)
 			.attr('transform', null)
-			.attr('d', line)
+			.attr('d', l)
 		.transition().duration(function () {
 return 														 Math.random() * time * 5 + 10
 
