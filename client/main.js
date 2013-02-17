@@ -1,19 +1,21 @@
-function echonest (id, obj) {
-	echoNestApiCall(id, obj.title, obj.artist);
+function echonest (obj, cb) {
+	echoNestApiCall(obj, cb);
 }
 
-function echoNestApiCall(id, trackName, artistName) {
+function echoNestApiCall(obj, cb) {
   var revsApiKey = "SPKJOSP5JJEXZ9I7W"
-  var formattedTrackName = createFormattedName(trackName);
-  var formattedArtistName = createFormattedName(artistName);
+  var formattedTrackName = createFormattedName(obj.title);
+  var formattedArtistName = createFormattedName(obj.artist);
   //   var url = "http://developer.echonest.com/api/v4/song/search?api_key=" + revsApiKey + "&format=json&results=1&combined=" + combined + "&rank_type=familiarity&bucket=audio_summary";/docs/v4/song.html#search
   var url = "http://developer.echonest.com/api/v4/song/search?api_key=" + revsApiKey + "&format=json&results=1&artist=" + formattedArtistName + "&title=" + formattedTrackName + "&sort=song_hotttnesss-desc&bucket=audio_summary"; //  match format 'karma%20police'    http://developer.echonest.com/docs/v4/song.html#search
   // format = works = http://developer.echonest.com/api/v4/song/search?api_key=SPKJOSP5JJEXZ9I7W&format=json&results=1&artist=radiohead&title=karma%20police&bucket=audio_summary
   Meteor.http.call("GET", url, function(err, results) {
+										 var id;
 									   console.log(results)
-										 results.data.response.songs.length &&
-											 Playlist.update({_id: id}, 	{$set:(results.data.response.songs[0].audio_summary)});
-  });
+										 results.data.response.songs.length  &&
+											 (id = Playlist.insert( _.extend(obj, results.data.response.songs[0].audio_summary)))
+											 && cb(id)
+									 });
 }
 
 function createFormattedName(name) {
