@@ -52,6 +52,10 @@
   border-radius:10px;
 }
 
+svg {
+ height:230px; 
+}
+
 body {
 font-family: Georgia;
 background-color:#0C1153;
