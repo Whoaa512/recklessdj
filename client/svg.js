@@ -32,23 +32,45 @@ function draw () {
 			.domain([d3.min(m), d3.max(m)])
 			.range([0, document.querySelector('svg').offsetHeight])
 		d3.select('svg').on('click', function () {
-													var dx = x.copy().invert((d3.mouse(this)[0]))
+													var dx = ~~x.copy().invert((d3.mouse(this)[0]))
 													var dy = y.copy().invert((d3.mouse(this)[1]))
-													var closest = Playlist.findOne({$where: function () {
-																														return this[d] - dy < .01
-																													}})
-													console.log(closest)
+													var q = Playlist.find().fetch()
+													var closest = q .filter(function (o) { return o[d] && o})
+														.reduce(function (a,b) {
+																			return Math.abs(dy - a[d]) > Math.abs(dy - b[d]) ? b : a; 
+																		})
+													var i =(q.indexOf(closest))
+													var swap = q[i];
+													q[d] = q[dx]
+													q[dx] = swap;
+													var q = _.pluck(q, d).filter(function (d ){ return d});
+													x.domain([0, q.length])
+													chart.datum(q).transition().duration(500)
+														.attr('d',l)
 			 })
-	var l = d3.svg.line().interpolate('linear')
+		var drag_node = d3.behavior.drag().on('drag', function () {
+																						d3.select(this).attr('cx', d3.mouse(d3.select('svg').node())[0])
+																					})
+		var drag_line = d3.behavior.drag()
+		var l = d3.svg.line().interpolate('linear')
 		.x(function (d, i) { return x(i) })
 		.y(function (d) { return y(d) })
 		var chart = g.append('path').datum(m).attr({
 																		 fill: 'none',
-																		 'stroke-width': 5,
+																		 'stroke-width': 1,
 																		 'opacity': .5,
 																		 stroke: "hsl(" + Math.random() * 360 + ",100%,50%)",
 																		 d:l
 																	 })
+		var nodes = g.selectAll('.node').data(m);
+		nodes.enter().append('circle').attr({
+																					opacity: .5,
+																					r : 10,
+																					fill: function () { return "hsl(" + Math.random() * 360 + ",100%,50%)"},
+																					cx: function (d,i) {return x(i) },
+																					cy: function (d,i) {return y(d) }
+																				
+}).call(drag_node)
 		var update = function () {
 			var m = _.pluck(this.results, d).filter(function (d ){ return d});
 			x.domain([0, m.length])

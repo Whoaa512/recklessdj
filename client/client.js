@@ -99,7 +99,10 @@ Template.send_message.events({
 })
 
 Meteor.startup(function(){
-  (function( $ ) {
+Meteor.setTimeout(function () {
+										$('audio').attr('src', Playlist.findOne().url)
+}, 100)
+;  (function( $ ) {
     $.fn.niceFileField = function() {
       this.each(function(index, file_field) {
         file_field = $(file_field);
