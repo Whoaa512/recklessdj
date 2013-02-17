@@ -51,10 +51,12 @@ function load_file (file) {
 }
 
 Template.playlist.events({
-													 'contextmenu td': function (e) {
-														 e.preventDefault()
-														 Playlist.remove({_id:this._id})
-}
+	'contextmenu td': function (e) {
+		e.preventDefault()
+		Playlist.remove({_id:this._id})
+  },
+    
+
 })
 
 filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
@@ -109,7 +111,7 @@ Meteor.setTimeout(function () {
         var label = file_field.attr("data-label") || "Choose File";
 
         file_field.css({"display": "none"});
-        file_field.after("<div class=\"span6 nice_file_field input-append\"><input class=\"input span6\" type=\"text\"><a class=\"btn\">" + label + "</a></div>");
+        file_field.after("<div class=\"span6 nice_file_field input-append hero\"><input class=\"input span6 hero\" type=\"text\"><a class=\"btn\">" + label + "</a></div>");
 
         var nice_file_field = file_field.next(".nice_file_field");
         nice_file_field.find("a").click( function(){ file_field.click() } );
@@ -124,5 +126,8 @@ Meteor.setTimeout(function () {
     };
   })( jQuery );
   $("#document_field").niceFileField();
-  $("#table-1").tableDnD();
+})
+
+Meteor.startup(function(){
+  setTimeout(function(){$("#table1").tableDnD()}, 1000);
 })
