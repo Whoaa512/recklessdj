@@ -1,3 +1,5 @@
+
+
 var file;
 filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
 
@@ -49,15 +51,9 @@ function load_file (file) {
 }
 
 Template.playlist.events({
-													 'click td': function () {
-														 console.log(this.url)
-														 $('audio').attr('src', this.url);
-},
-
-													 'contextmenu td': function (e) {
-														 e.preventDefault()
-														 Playlist.remove({_id:this._id})
-}
+  'mousedown td': function () {
+    
+  }
 })
 
 filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
@@ -122,5 +118,5 @@ Meteor.startup(function(){
     };
   })( jQuery );
   $("#document_field").niceFileField();
-  $("#table1").tableDnD();
+  $("#table-1").tableDnD();
 })
