@@ -15,10 +15,15 @@ Template.playlist.song = function () {
     return d
 	})
 };
+var count
+Meteor.startup(function () {
+		count = Playlist.find().count();
+})
 
+Meteor.startup(function () {})
 function load_file (file) {
 	var id, obj;
-	var err = function(FPError) { console.log(FPError.toString()) }
+	var err = function(FPError) {console.log(FPError.toString()) }
 	var cb = 	function (id) {
 		console.log('fp store')
 	var success = function(FPFile){
@@ -36,7 +41,7 @@ function load_file (file) {
 				artist : dv.getString(30, dv.tell()),
 				album : dv.getString(30, dv.tell()),
 				year : dv.getString(4, dv.tell()),
-				track : Playlist.find().count()
+				track : count++
 			}
 		}
 		else {
@@ -45,10 +50,9 @@ function load_file (file) {
 			var reader = getTagReader(bf)
 			reader.loadData(bf, function () {
 												obj = reader.readTagsFromData(bf)
+												obj.track = count++
 											})
 		}
-		console.log(obj)
-		obj.track = Playlist.find().count();
 		echonest(obj, cb);
 	}
 	
@@ -56,15 +60,10 @@ function load_file (file) {
 }
 
 Template.playlist.events({
-													 'mouseover td': function () {
-													this.track &&	 console.log(this.track)
-
-													 },
-													 'mouseup td': function (e) {
-														 e.target._id = this._id
-
-													 },
-	'contextmenu td': function (e) {
+		'mouseover td': function () {
+			this.track &&	 console.log(this.track)
+				},
+			'contextmenu td': function (e) {
 		e.preventDefault()
 		Playlist.remove({_id:this._id})
   },
@@ -144,8 +143,10 @@ Meteor.startup(function(){
 																								onDragClass: 'drag',
 																								onDrop: function (table, row) {
 																									var i= $(table).children().find('tr').index(row)
+																										var j= this.id;
+																									var id = this.db;
 																									console.log(i)
-																									Playlist.update({_id: this._id}, {track: i })
+																									Playlist.update({_id: this.db}, {track: i })
 																									Playlist.update({track: {$lt: i}}, {$inc :{track: -1} })
 																								}
 																							})}, 1000);
