@@ -126,6 +126,13 @@ Meteor.setTimeout(function () {
     };
   })( jQuery );
   $("#document_field").niceFileField();
+<<<<<<< HEAD
+})
+
+Meteor.startup(function(){
+  setTimeout(function(){$("#table1").tableDnD()}, 1000);
+=======
+>>>>>>> 264cf838906b516198ba9853116e620aca4b5d86
 })
 
 Meteor.startup(function(){
