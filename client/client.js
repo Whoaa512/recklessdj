@@ -1,12 +1,7 @@
+
+
 var file;
 filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
-Template.search.events({
-												'keydown .search' : function (e) {
-													if (e.which !== 13) return;
-													console.log('searching for %s', e.target.value);
-													e.target.value = '';
-												}
-											});
 
 Template.playlist.song = function () {
   return Playlist.find().fetch();
@@ -77,3 +72,28 @@ Template.chat.events({
 																			 }) && (e.target.value = '')
 											 }
 										 })
+
+Meteor.startup(function(){
+  (function( $ ) {
+    $.fn.niceFileField = function() {
+      this.each(function(index, file_field) {
+        file_field = $(file_field);
+        var label = file_field.attr("data-label") || "Choose File";
+
+        file_field.css({"display": "none"});
+        file_field.after("<div class=\"span6 nice_file_field input-append\"><input class=\"input span6\" type=\"text\"><a class=\"btn\">" + label + "</a></div>");
+
+        var nice_file_field = file_field.next(".nice_file_field");
+        nice_file_field.find("a").click( function(){ file_field.click() } );
+        file_field.change( function(){
+          if(file_field[0].files.length > 1){
+            nice_file_field.find("input").val(file_field[0].files.length + " files uploaded")
+          } else{
+            nice_file_field.find("input").val(file_field[0].files[0].name)
+          }
+        });
+      });
+    };
+  })( jQuery );
+  $("#document_field").niceFileField();
+})

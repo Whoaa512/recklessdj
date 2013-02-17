@@ -43,6 +43,10 @@
   background-color:#A0E2FC;
 }
 
+.min-width-well{
+  min-width:340px;
+}
+
 .light-blue-font{
   font-color:#A0E2FC;
 }
@@ -58,7 +62,7 @@ svg {
 
 body {
 font-family: Georgia;
-background-color:#0C1153;
+background-image:#0C1153;
 color: #333;
 }
 
