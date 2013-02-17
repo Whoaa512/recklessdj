@@ -9,7 +9,7 @@ Template.playlist.song = function () {
 		var m = '' + ~~(d.duration / 60)
 		var s = '' + ~~(d.duration % 1 * 60)
 		d.length = m + ':' + (+s<10 ? '0' + s : s);
-		return d.length && d.url && d;
+		return d;
 	}).map(function(d,i){
     d.i = i;
     return d
@@ -18,12 +18,15 @@ Template.playlist.song = function () {
 
 function load_file (file) {
 	var id, obj;
+	var err = function(FPError) { console.log(FPError.toString()) }
+	var cb = 	function (id) {
+		console.log('fp store')
 	var success = function(FPFile){
 		console.log("Store successful:", JSON.stringify(FPFile));
 		Playlist.update({_id:id}, {$set: FPFile})
 	}
-	var err = function(FPError) { console.log(FPError.toString()) }
-	filepicker.store(file, success, function(progress) { "Loading: "+progress+"%" })
+		filepicker.store(file, success, function(progress) { console.log("Loading: "+progress+"%") })
+	}
 	var reader = new FileReader;
 	reader.onload = function(e) {
 		var dv = new jDataView(this.result);
@@ -45,16 +48,20 @@ function load_file (file) {
 											})
 		}
 		console.log(obj)
-obj.track = Playlist.find().count();
-		id = Playlist.insert(obj)
-		echonest(id, obj);
+		obj.track = Playlist.find().count();
+		echonest(obj, cb);
 	}
 	
 	reader.readAsArrayBuffer(file)
 }
 
 Template.playlist.events({
-													 'mouseover': function () {
+													 'mouseover td': function () {
+													this.track &&	 console.log(this.track)
+
+													 },
+													 'mouseup td': function (e) {
+														 e.target._id = this._id
 
 													 },
 	'contextmenu td': function (e) {
@@ -115,7 +122,6 @@ Meteor.setTimeout(function () {
       this.each(function(index, file_field) {
         file_field = $(file_field);
         var label = file_field.attr("data-label") || "Choose File";
-        debugger;
         file_field.css({"display": "none"});
         file_field.after("<div class=\"span6 nice_file_field input-append  block-300-by-30px\"><input class=\"input fixed-width-150px hero\" type=\"text\"><a class=\"btn hero\">" + label + "</a></div>");
         var nice_file_field = file_field.next(".nice_file_field");
@@ -139,7 +145,8 @@ Meteor.startup(function(){
 																								onDrop: function (table, row) {
 																									var i= $(table).children().find('tr').index(row)
 																									console.log(i)
-																									// Playlist.update({track: id}, {id: row.id })
+																									Playlist.update({_id: this._id}, {track: i })
+																									Playlist.update({track: {$lt: i}}, {$inc :{track: -1} })
 																								}
 																							})}, 1000);
 })
