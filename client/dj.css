@@ -9,14 +9,6 @@
   text-align:center;
 }
 
-tr :hover{
-color:red;
-}
-
-.drag{
-color:pink;
-}
-
 .dark-blue{
   background-color:#0C1153;
 }

@@ -4,7 +4,7 @@ var file;
 filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
 
 Template.playlist.song = function () {
-  var p= Playlist.find({}, {sort: {order: 1}}).fetch();
+  var p= Playlist.find({}, {sort: {queue: 1}}).fetch();
 	return p.filter(function (d) {
 		var m = '' + ~~(d.duration / 60)
 		var s = '' + ~~(d.duration % 1 * 60)
@@ -15,9 +15,9 @@ Template.playlist.song = function () {
     return d
 	})
 };
-var count
+var initial_queue
 Meteor.startup(function () {
-		count = Playlist.find().count();
+		initial_queue = Playlist.find().fetch().length;
 })
 
 Meteor.startup(function () {})
@@ -41,7 +41,7 @@ function load_file (file) {
 				artist : dv.getString(30, dv.tell()),
 				album : dv.getString(30, dv.tell()),
 				year : dv.getString(4, dv.tell()),
-				track : count++
+				queue : initial_queue++
 			}
 		}
 		else {
@@ -50,9 +50,10 @@ function load_file (file) {
 			var reader = getTagReader(bf)
 			reader.loadData(bf, function () {
 												obj = reader.readTagsFromData(bf)
-												obj.track = count++
+		obj.queue = initial_queue++
 											})
 		}
+
 		echonest(obj, cb);
 	}
 	
@@ -60,9 +61,20 @@ function load_file (file) {
 }
 
 Template.playlist.events({
-		'mouseover td': function () {
-			this.track &&	 console.log(this.track)
-				},
+		'mousedown td': function (e) {
+			e.preventDefault();
+			var id = this._id;
+			var y = e.screenY;
+			var w = d3.select(window)
+				.on('mousemove', function () {
+					if( Math.abs(y - d3.event.screenY) > 5){
+						console.log(y - d3.event.screenY)
+							Playlist.update({_id:id}, {$inc: {queue: d3.event.screenY < 0 ? -1 : 1 } })
+								}		
+					})
+				.on('mouseup', function (){ w.on('mousemove', null) })
+	},
+					
 			'contextmenu td': function (e) {
 		e.preventDefault()
 		Playlist.remove({_id:this._id})
@@ -116,38 +128,4 @@ Meteor.startup(function(){
 Meteor.setTimeout(function () {
 										$('audio').attr('src', Playlist.findOne().url)
 }, 100)
-;  (function( $ ) {
-    $.fn.niceFileField = function() {
-      this.each(function(index, file_field) {
-        file_field = $(file_field);
-        var label = file_field.attr("data-label") || "Choose File";
-        file_field.css({"display": "none"});
-        file_field.after("<div class=\"span6 nice_file_field input-append  block-300-by-30px\"><input class=\"input fixed-width-150px hero\" type=\"text\"><a class=\"btn hero\">" + label + "</a></div>");
-        var nice_file_field = file_field.next(".nice_file_field");
-        nice_file_field.find("a").click( function(){ file_field.click() } );
-        file_field.change( function(){
-          if(file_field[0].files.length > 1){
-            nice_file_field.find("input").val(file_field[0].files.length + " files uploaded")
-          } else{
-            nice_file_field.find("input").val(file_field[0].files[0].name)
-          }
-        });
-      });
-    };
-  })( jQuery );
-  $("#document_field").niceFileField();
-})
-
-Meteor.startup(function(){
-  setTimeout(function(){$("#table1").tableDnD({
-																								onDragClass: 'drag',
-																								onDrop: function (table, row) {
-																									var i= $(table).children().find('tr').index(row)
-																										var j= this.id;
-																									var id = this.db;
-																									console.log(i)
-																									Playlist.update({_id: this.db}, {track: i })
-																									Playlist.update({track: {$lt: i}}, {$inc :{track: -1} })
-																								}
-																							})}, 1000);
-})
+;})
