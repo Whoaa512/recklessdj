@@ -57,7 +57,7 @@
 }
 
 svg {
- height:230px; 
+ height:205px; 
 }
 
 body {
@@ -85,4 +85,28 @@ li:hover {
 .playlist span {
 					margin: 100px;
 					width: 100px;
+}
+
+.long-fixed-height-with-overflow {
+  display: block;
+  height: 350px;
+  overflow-y: scroll;
+}
+
+.short-fixed-height-with-overflow {
+  display: block;
+  height: 310px;
+  overflow-y: scroll;
+}
+
+.width-50 {
+  width: 50%;
+}
+
+.word-wrap {
+  word-wrap:break-word
+}
+
+.margin-top{
+  margin-top: 10px;
 }

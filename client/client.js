@@ -64,7 +64,7 @@ Template.upload_file.events({
 															}
 })
 
-Template.chat.message = function () {
+Template.view_message.message = function () {
 	return Chat.find().fetch().reverse().slice(0,15)
 }
 
@@ -76,27 +76,27 @@ Template.main.events({
 											 }
 										 })
 
-Template.chat.user = function () {
+Template.send_message.user = function () {
 	return Session.get('user')
 }
 
-Template.chat.events({
+Template.send_message.events({
+	'click .reset':  function (e) {
+	  Session.set('user','')
+	},
 
-											 'click .reset':  function (e) {
-												 Session.set('user','')
-											 },
-
-											 'keydown .user':  function (e) {
-												 if (e.which === 13) Session.set('user', e.target.value)
-											 },
-											 'keydown .message':  function (e) {
-												 if (e.which === 13)
-													 Chat.insert({
-																				 text: e.target.value,
-																				 username: Session.get('user')
-																			 }) && (e.target.value = '')
-											 }
-										 })
+	'keydown .user':  function (e) {
+		if (e.which === 13) Session.set('user', e.target.value)
+	},
+	'keydown .message':  function (e) {
+	 	if (e.which === 13){
+  		Chat.insert({
+  		  text: e.target.value,
+  			username: Session.get('user')
+  		}) && ($('.short-fixed-height-with-overflow')[0].scrollTop=0) &&  (e.target.value = '')
+	 	}
+	}
+})
 
 Meteor.startup(function(){
   (function( $ ) {

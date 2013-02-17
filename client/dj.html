@@ -8,51 +8,61 @@
 
 <template name="main">
   <div class="container-fluid">
-  <div class="container-fluid inputContainer">
-    <div class="row-fluid">
+    <div class="container-fluid inputContainer">
       <div class="row-fluid">
-        <div class="span12">
-        <div class="span6 well light-blue ">
-          <h1 class="rounded-corners"><p class="pink-font">Reckless DJ<p></h1>
-          <p class="pink-font">Stay Reckless my friends</p>
-          <audio src="" autoplay controls></audio>
-          {{> upload_file}}
-        </div>
-        <div class="span6">
-          <svg></svg>
-        </div>
-      </div>
-      </div>
-    <div class="row-fluid">
-      <div class="span6 light-blue">
-        {{> playlist}}
-      </div>
-      <div class="span6 light-blue">
         <div class="row-fluid">
-          <ul>
-  				{{> chat}}
+          <div class="span12">
+            <div class="span6 well light-blue ">
+              <h1 class="rounded-corners"><p class="pink-font">Reckless DJ<p></h1>
+              <p class="pink-font">Stay Reckless my friends</p>
+              <audio src="" autoplay controls></audio>
+              {{> upload_file}}
+            </div>
+            <div class="span6">
+              <svg></svg>
+            </div>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="span6 light-blue long-fixed-height-with-overflow width-50">
+            {{> playlist}}
+          </div>
+          <div class="span6 row-fluid">  
+            <div class="light-blue short-fixed-height-with-overflow">
+              <ul>
+        				{{> view_message}}
+        			</ul>
+            </div>
+            <div class="span6">
+              {{> send_message}}
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<template name="chat">
-	{{#each message}}
-	  <li>{{user}} : {{text}}</div>
-	{{/each}}
-  </ul>
+<template name="view_message">
+  {{#each message}}
+    <li class="word-wrap"><p>{{username}} : {{text}}<p></div>
+  {{/each}}
+</template>
+
+<template name="send_message">
+  <div class="row-fluid margin-top">
     {{#if user}}
-  <div class="row-fluid">
-    <span class="reset" >{{user}}</span>
-  {{else}}
-  <div class="span3">
-    <input type="text" class="user input-small" placeholder="your name here"/>  	
-  {{/if}}
-  </div>
-  <div class="span3">
-    <input type="text" class="message input-small" placeholder="say something"/>
-  </div>
+    <div class="span3 text-right">
+      <div class="reset"><p>{{user}}</p></div>
+    {{else}}
+    <div class="span3">
+      <input type="text" class="user span12" placeholder="your name here"/>  	
+    {{/if}}
+    </div>
+    <div class="span3">
+      <input type="text" class="message span12" placeholder="say something"/>
+    </div>
+  </div>  
 </template>
 
 <template name="upload_file">
