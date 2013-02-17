@@ -13,9 +13,16 @@ Template.playlist.song = function () {
 
 Template.upload_file.events({
 															'change input':  function (e) {
-  filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
- filepicker.store(e.target,
-									function(FPFile){ console.log("Store successful:", JSON.stringify(FPFile)); },
+																var m = +(new Date);
+																var obj;
+
+																filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
+																filepicker.store(e.target,
+									function(FPFile){
+										console.log (Date.now() - m)
+										console.log("Store successful:", JSON.stringify(FPFile));
+										Playlist.insert(_.extend(FPFile, obj))
+									},
 									function(FPError) { console.log(FPError.toString()) },
 									function(progress) { console.log("Loading: "+progress+"%") })
 var reader = new FileReader;
@@ -25,11 +32,13 @@ var reader = new FileReader;
     // "TAG" starts at byte -128 from EOF.
     // See http://en.wikipedia.org/wiki/ID3
     if (dv.getString(3, dv.byteLength - 128) == 'TAG') {
-      var title = dv.getString(30, dv.tell());
-      var artist = dv.getString(30, dv.tell());
-      var album = dv.getString(30, dv.tell());
-      var year = dv.getString(4, dv.tell());
-			console.log(title, artist, album, year)
+			obj = {
+				title : dv.getString(30, dv.tell()),
+				artist : dv.getString(30, dv.tell()),
+				album : dv.getString(30, dv.tell()),
+				year : dv.getString(4, dv.tell())
+			}
+			console.log(obj)
     } else {
       // no ID3v1 data found.
     }

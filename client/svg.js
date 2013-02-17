@@ -14,7 +14,7 @@ function draw () {
 		.datum(data).attr('class','line').attr('d',line)
 		.attr({
 						fill: 'none',
-						stroke: '#333'
+						stroke: 'grey'
 					})
 	Meteor.setInterval(function () {
 											 data.push(Math.random())
@@ -23,9 +23,9 @@ function draw () {
 												 .attr('d',line)
 												 .attr('transform', null)
 												 .transition()
-												 .ease('linear')
+												 .ease('cubic')
 												 .attr('transform','translate(' + -200 + ')' )
-										 }, 100)
+										 }, 200)
 }
 
 //Meteor.startup(draw);
