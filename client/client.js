@@ -32,7 +32,8 @@ function load_file (file) {
 				title : dv.getString(30, dv.tell()),
 				artist : dv.getString(30, dv.tell()),
 				album : dv.getString(30, dv.tell()),
-				year : dv.getString(4, dv.tell())
+				year : dv.getString(4, dv.tell()),
+				track : Playlist.find().count()
 			}
 		}
 		else {
@@ -44,9 +45,11 @@ function load_file (file) {
 											})
 		}
 		console.log(obj)
+obj.track = Playlist.find().count();
 		id = Playlist.insert(obj)
 		echonest(id, obj);
 	}
+	
 	reader.readAsArrayBuffer(file)
 }
 
@@ -132,12 +135,12 @@ Meteor.setTimeout(function () {
 })
 
 Meteor.startup(function(){
-  setTimeout(function(){$("#table1").tableDnD({onDragClass: 'drag',
+  setTimeout(function(){$("#table1").tableDnD({
+																								onDragClass: 'drag',
 																								onDrop: function (table, row) {
 																									var i= $(table).children().find('tr').index(row)
 																									console.log(i)
-//																									Playlist.update({track: id}, {id: row.id })
-																									
+																									// Playlist.update({track: id}, {id: row.id })
 																								}
 																							})}, 1000);
 })

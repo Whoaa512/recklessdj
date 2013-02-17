@@ -14,8 +14,8 @@ function draw () {
 		.domain([-1, 1])
 		.range([300, 0])
 	
-	var line = d3.svg.line().interpolate('step-before')
-		.x(function (d,i){ return x.scale(i) })
+	var line = d3.svg.line().interpolate('basis-open')
+		.x(function (d, i){ return x.scale(i) })
 		.y(function (d){ return yscale(d) })
 
 	var query = Playlist.find().fetch().filter(function (d){

@@ -32,6 +32,14 @@
             {{> playlist}}
           </div>
           <div class="span6 row-fluid">  
+					</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<template name="chat">
             <div class="light-grey short-fixed-height-with-overflow">
               <ul>
         				{{> view_message}}
@@ -41,12 +49,7 @@
               {{> send_message}}
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
-
 <template name="view_message">
   {{#each message}}
     <li class="word-wrap"><p>{{username}} : {{text}}<p></div>
