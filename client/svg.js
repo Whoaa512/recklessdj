@@ -31,8 +31,13 @@ function draw () {
 		var y = d3.scale.linear()
 			.domain([d3.min(m), d3.max(m)])
 			.range([0, document.querySelector('svg').offsetHeight])
-		d3.select('svg').on('click', function (d) {
-													y.copy().invert((d3.mouse(this)[1]))
+		d3.select('svg').on('click', function () {
+													var dx = x.copy().invert((d3.mouse(this)[0]))
+													var dy = y.copy().invert((d3.mouse(this)[1]))
+													var closest = Playlist.findOne({$where: function () {
+																														return this[d] - _ < .01
+																													}})
+													console.log(closest)
 			 })
 	var l = d3.svg.line().interpolate('linear')
 		.x(function (d, i) { return x(i) })

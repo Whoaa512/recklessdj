@@ -1,3 +1,5 @@
+
+
 var file;
 filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
 
@@ -117,5 +119,5 @@ Meteor.startup(function(){
     };
   })( jQuery );
   $("#document_field").niceFileField();
-  $("#table1").tableDnD();
+  $("#table-1").tableDnD();
 })
