@@ -35,7 +35,7 @@ function draw () {
 													var dx = x.copy().invert((d3.mouse(this)[0]))
 													var dy = y.copy().invert((d3.mouse(this)[1]))
 													var closest = Playlist.findOne({$where: function () {
-																														return this[d] - _ < .01
+																														return this[d] - dy < .01
 																													}})
 													console.log(closest)
 			 })
