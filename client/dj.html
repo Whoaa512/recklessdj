@@ -3,6 +3,10 @@
 </head>
 
 <body>
+	{{> main}}
+</body>
+
+<template name="main">
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span12">
@@ -26,20 +30,18 @@
       </div>
     </div>
   </div>
-</body>
-
-
+</template>
 
 <template name="chat">
+	{{#each message}}
+	<div>	{{user}} : {{text}}	</div>
+	{{/each}}
 	{{#if user}}
 	<span class="reset">{{user}}</span>
 	{{else}}
   <input type="text" class="user" placeholder="your name here"/>
 	{{/if}}
   <input type="text" class="message" placeholder="say something"/>
-	{{#each message}}
-	<div>	{{user}} : {{text}}	</div>
-	{{/each}}
 </template>
 
 

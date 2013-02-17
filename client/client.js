@@ -9,8 +9,15 @@ Template.search.events({
 											});
 
 Template.playlist.song = function () {
-  return Playlist.find().fetch();
+  var p= Playlist.find().fetch();
+	return p.filter(function (d) {
+										var m = '' + ~~(d.duration / 60)
+										var s = '' + ~~(d.duration % 1 * 60)
+										d.length = m + ':' + (+s<10 ? '0' + s : s);
+										return d.length && d.url && d;
+									})
 };
+
 function load_file (file) {
 	var id, obj;
 	var success = function(FPFile){
@@ -18,7 +25,7 @@ function load_file (file) {
 		Playlist.update({_id:id}, {$set: FPFile})
 	}
 	var err = function(FPError) { console.log(FPError.toString()) }
-	filepicker.store(this, success, function(progress) { "Loading: "+progress+"%" })
+	filepicker.store(file, success, function(progress) { "Loading: "+progress+"%" })
 	var reader = new FileReader;
 	reader.onload = function(e) {
 		var dv = new jDataView(this.result);
@@ -45,16 +52,29 @@ function load_file (file) {
 	reader.readAsArrayBuffer(file)
 }
 
-filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
-Template.upload_file.events({
-															'change input':  function (e) {
-																[].forEach.call(e.target.files, load_file, e.target)
+Template.playlist.events({
+													 'click td': function () {
+														 console.log(this.url)
+														 $('audio').attr('src', this.url);
 }
 })
 
+filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
+Template.upload_file.events({
+															'change input':  function (e) {
+																[].forEach.call(e.target.files, load_file)
+															}
+})
+
 Template.chat.message = function () {
-	return Chat.find().fetch().reverse()
+	return Chat.find().fetch().reverse().slice(0,15)
 }
+
+Template.main.events({
+											 'ended audio': function (e) {
+												 console.log(123)
+											 }
+										 })
 
 Template.chat.user = function () {
 	return Session.get('user')

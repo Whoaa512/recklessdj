@@ -8,33 +8,73 @@ function draw () {
 		.map(rand)
 	var xscale = d3.scale.linear()
 		.domain([0, 100])
-		.range([0, innerWidth / 5])
+		.range([0, document.querySelector('svg').offsetWidth])
 
 	var yscale = d3.scale.linear()
 		.domain([-1, 1])
 		.range([300, 0])
 	
-	var line = d3.svg.line().interpolate('linear')
+	var line = d3.svg.line().interpolate('step-before')
 		.x(function (d,i){ return xscale(i) })
 		.y(function (d){ return yscale(d) })
-	var path = 	g.insert('path', '*')
-		.datum(data).attr('class','line').attr('d',line)
-		.attr({
-						fill: 'none',
-						'stroke-width': 2,
-						stroke: 'red'
-					});
 
-	(function x() {
-		 data.push(rand())
-		 path.datum(data)
-			 .attr('transform', null)
-			 .attr('d', line)
-			 .transition().duration(100)
-			 .ease('linear')
-			 .attr('transform','translate(' + xscale(-1) + ')' )
-			 .each('end', x)
-			data.shift()
-	 })()
+	var query = Playlist.find().fetch().filter(function (d){
+																							 return d.duration && d.url
+																						 })
+	var props = 	['energy' ];
+
+	var illustrate = function (d,i ) {
+		var m = _.pluck(query, d)
+		var x = d3.scale.linear()
+			.domain([0, m.length])
+			.range([0, document.querySelector('svg').offsetWidth])
+		var y = d3.scale.linear()
+			.domain([d3.min(m), d3.max(m)])
+			.range([0, document.querySelector('svg').offsetHeight])
+
+	d3.select('svg').on('click', function (d) {
+				 console.log(1231)
+				 console.log(x.copy().invert((d3.mouse(this)[0])));
+			 })
+	var l = d3.svg.line().interpolate('linear')
+		.x(function (d, i) { return x(i) })
+		.y(function (d) { return y(d) })
+		g.append('path').datum(m).attr({
+																		 fill: 'none',
+																		 'stroke-width': 5,
+																		 'opacity': .5,
+																		 stroke: "hsl(" + Math.random() * 360 + ",100%,50%)",
+																		 d:l
+																	 })
+			.on('click', function (d){ console.log(d) })
+	}
+	props.forEach(illustrate);
+	[].forEach(function (item, index) {
+									var path = 	g.insert('path', '*')
+										.datum(data).attr('d',line)
+										.attr({
+														fill: 'none',
+														'stroke-width': 15,
+														'opacity': .5,
+														stroke: "hsl(" + Math.random() * 360 + ",100%,50%)",
+														'class': item
+													})
+									update(item, (index + 5) * 10)
+								})
+
+	function update(selector, time) {
+		data.push(rand())
+		d3.select('.' + selector).datum(data)
+			.attr('transform', null)
+			.attr('d', line)
+		.transition().duration(function () {
+return 														 Math.random() * time * 5 + 10
+
+}).delay(function () { return Math.random () * 20 })
+			.ease('linear')
+			.attr('transform','translate(' + xscale(-1) + ')' )
+			.each('end', update.bind(null, selector, time))
+		data.shift()
+	}
 }
-Meteor.startup(draw);
+Meteor.setTimeout(draw, 500);
