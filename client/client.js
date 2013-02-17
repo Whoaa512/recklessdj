@@ -71,6 +71,8 @@ Template.chat.message = function () {
 Template.main.events({
 											 'ended audio': function (e) {
 												 console.log(123)
+												 Playlist.remove(Playlist.findOne())
+												 e.target.src = Playlist.findOne().url;
 											 }
 										 })
 
@@ -91,7 +93,7 @@ Template.chat.events({
 												 if (e.which === 13)
 													 Chat.insert({
 																				 text: e.target.value,
-																				 user: Session.get('user')
+																				 username: Session.get('user')
 																			 }) && (e.target.value = '')
 											 }
 										 })
