@@ -1,12 +1,12 @@
 trackName = "karma police";		 // set up to return from a clickhandler
 artistName = "radiohead";				//
 //checkDb(trackName, artistName)
-function echoNest(trackName, artistName) { 
+function echoNest(trackName, artistName) {
 trackName = "south of heaven"; // set up to return from a clickhandler
 artistName = "slayer";
 
 checkDb(trackName, artistName)
-
+}
 function checkDb(trackName, artistName) {
   // if (library.findOne({trackName: trackName, artistName: artistName }) === undefined) { //
     echoNestApiCall(trackName, artistName)
