@@ -1,16 +1,17 @@
-
-
 var file;
 filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
 
 Template.playlist.song = function () {
   var p= Playlist.find().fetch();
 	return p.filter(function (d) {
-										var m = '' + ~~(d.duration / 60)
-										var s = '' + ~~(d.duration % 1 * 60)
-										d.length = m + ':' + (+s<10 ? '0' + s : s);
-										return d.length && d.url && d;
-									})
+		var m = '' + ~~(d.duration / 60)
+		var s = '' + ~~(d.duration % 1 * 60)
+		d.length = m + ':' + (+s<10 ? '0' + s : s);
+		return d.length && d.url && d;
+	}).map(function(d,i){
+    d.i = i;
+    return d
+	})
 };
 
 function load_file (file) {
@@ -121,4 +122,5 @@ Meteor.startup(function(){
     };
   })( jQuery );
   $("#document_field").niceFileField();
+  $("#table1").tableDnD();
 })
