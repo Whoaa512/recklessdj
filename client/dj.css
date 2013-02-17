@@ -16,10 +16,12 @@ ul {
 li {
 	 line-height: 1.5em;
 }
+
 li:hover {
 				 background: pink;
 }
 
 .playlist span {
-					margin: 50px;
+					margin: 100px;
+					width: 100px;
 }
