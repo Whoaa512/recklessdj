@@ -27,8 +27,10 @@
       <div class="span6 light-blue">
         {{> playlist}}
       </div>
-      <div class="span6 light-blue">
-				{{> chat}}
+      <div class="row-fluid">
+        <div class="span6 light-blue">
+  				{{> chat}}
+        </div>
       </div>
     </div>
   </div>
@@ -36,7 +38,7 @@
 
 <template name="chat">
 	{{#each message}}
-	<div>	{{user}} : {{text}}	</div>
+	<div class="span6">	{{user}} : {{text}}	</div>
 	{{/each}}
 	{{#if user}}
 	<span class="reset">{{user}}</span>
@@ -51,18 +53,18 @@
 </template>
 
 <template name="playlist">
-  <table class="table table-striped table-bordered dark-border rounded-corners">
-  	<thead class="dark-border">
-  		<td class="dark-border">title</td>
-  		<td class="dark-border">artist</td>
-  		<td class="dark-border">length</td>
+  <table class="table table-striped table-bordered rounded-corners" id="table1">
+  	<thead>
+  		<td >title</td>
+  		<td >artist</td>
+  		<td >length</td>
   	</thead>
   	<tbody class="dark-border">
   	  {{#each song}}
-    	<tr>
-    	  <td class="dark-border">{{title}}</td>
-        <td class="dark-border">{{artist}}</td>
-        <td class="dark-border">{{length}}</td>
+    	<tr id={{i}}>
+    	  <td>{{title}}</td>
+        <td>{{artist}}</td>
+        <td>{{length}}</td>
     	</tr>
   	  {{/each}}
   	</tbody>
