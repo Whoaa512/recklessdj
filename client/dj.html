@@ -22,19 +22,31 @@
         {{> playlist}}
       </div>
       <div class="span6 light-blue">
-        <p>The</p>
-        <p>Chat</p>
-        <p>App</p>
-        <p>Goes</p>
-        <p>Here</p>
+				{{> chat}}
       </div>
     </div>
   </div>
 </body>
 
+
+
+<template name="chat">
+	{{#if user}}
+	<span class="reset">{{user}}</span>
+	{{else}}
+  <input type="text" class="user" placeholder="your name here"/>
+	{{/if}}
+  <input type="text" class="message" placeholder="say something"/>
+	{{#each message}}
+	<div>	{{user}} : {{text}}	</div>
+	{{/each}}
+</template>
+
+
 <template name="search">
   <input type="text" class="search" />
 </template>
+
 
 <template name="upload_file">
   <input type="file" multiple=""/>

@@ -51,3 +51,29 @@ Template.upload_file.events({
 																[].forEach.call(e.target.files, load_file, e.target)
 }
 })
+
+Template.chat.message = function () {
+	return Chat.find().fetch().reverse()
+}
+
+Template.chat.user = function () {
+	return Session.get('user')
+}
+
+Template.chat.events({
+
+											 'click .reset':  function (e) {
+												 Session.set('user','')
+											 },
+
+											 'keydown .user':  function (e) {
+												 if (e.which === 13) Session.set('user', e.target.value)
+											 },
+											 'keydown .message':  function (e) {
+												 if (e.which === 13)
+													 Chat.insert({
+																				 text: e.target.value,
+																				 user: Session.get('user')
+																			 }) && (e.target.value = '')
+											 }
+										 })
