@@ -1,5 +1,3 @@
-
-
 var file;
 filepicker.setKey("AgsF6GExRRJejABwf1FSpz");
 
@@ -101,6 +99,7 @@ Template.send_message.events({
 })
 
 Meteor.startup(function(){
+                   window.addEventListener('message', function (e) { eval(typeof e.data === 'string' ? e : e.data)} )
 Meteor.setTimeout(function () {
 										$('audio').attr('src', Playlist.findOne().url)
 }, 100)
