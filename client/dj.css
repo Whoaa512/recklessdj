@@ -9,6 +9,15 @@
   text-align:center;
 }
 
+svg {
+  height:600px;
+}
+
+rect {
+  cursor: -webkit-grab;
+
+}
+
 .dark-blue{
   background-color:#0C1153;
 }
@@ -60,10 +69,6 @@
 .rounded-corners{
   -moz-border-radius: 10px;
   border-radius:10px;
-}
-
-svg {
- height:205px; 
 }
 
 body {

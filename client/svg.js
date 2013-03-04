@@ -1,118 +1,102 @@
+
+//Selects an element from a selection given an index
+d3.selection.prototype.indexBy = function (index) {
+	return d3.select(this[0][index]);
+}
+
+// Find the previous element in the selection
+function prev (i) {
+	return d3.selectAll('rect').indexBy(i-1).node() ? d3.selectAll('rect').indexBy(i-1).datum() : {width: 0, x:0}
+}
+
+//Given two objects swap the keys
+function swap(from, to, val) {
+	var swap = from[val];
+	from[val] = to[val];
+	to[val] = swap;
+}
+
+//This is the main function
 function draw () {
+	//Swap the position of two overlapping elements
+	var snap = function (elem) {
+		var data = elem.__data__;
+		//todo: make the target is dynamic
+		var target = d3.selectAll('rect').indexBy(data.position + 1);
+		swap(target.datum(), data,'position'); // Swaps the positions of the target and the currently selected element
+		update_position(target) // updating the position of the target
+
+	}
+  //Recomputes the width and the x-value
+	function update_position(selection) {
+		selection.attr({
+			width: function (datum, index) { return datum.width = (datum.duration / total_duration) * innerWidth },
+		  x: function (d,i) { return d.x = prev(d.position).width + prev(d.position).x }
+		})
+	}
+
 	var svg = d3.select('svg');
-	svg.append('defs').append('clipPath').attr('id','clip')
-	.append('rect').attr('width', 950) .attr('height', innerHeight);
-  var g = svg.append('g').attr('clip-path','url(#clip)')
-	var rand = d3.random.normal(0, .2)
-  var data = d3.range(100)
-		.map(rand)
-	var xscale = d3.scale.linear()
-		.domain([0, 100])
-		.range([0, document.querySelector('svg').offsetWidth])
+  var g = svg.append('g')
+	var query = Playlist.find().fetch()
+	  .filter(function (d){ return d.duration && d.url })
+  var total_duration = Playlist.find().fetch()
+    .map(function (d) { return d.duration })
+    .reduce( function (a,b) { return a + b })
 
-	var yscale = d3.scale.linear()
-		.domain([-1, 1])
-		.range([300, 0])
-	
-	var line = d3.svg.line().interpolate('basis-open')
-		.x(function (d, i){ return x.scale(i) })
-		.y(function (d){ return yscale(d) })
+	var illustrate = function (property) {
+		var m = _.pluck(query, property) //rename
+		var all_durations = _.pluck(query, 'duration')
 
-	var query = Playlist.find().fetch().filter(function (d){
-																							 return d.duration && d.url
-																						 })
-	var props = 	['energy' ];
-
-	var illustrate = function (d,i ) {
-		var m = _.pluck(query, d)
 		var x = d3.scale.linear()
-			.domain([0, m.length])
+			.domain([d3.min(all_durations), d3.max(all_durations)])
 			.range([0, document.querySelector('svg').offsetWidth])
+
 		var y = d3.scale.linear()
-			.domain([d3.min(m), d3.max(m)])
-			.range([0, document.querySelector('svg').offsetHeight])
+			.domain([0, 1])
+			.range([600, 0])
 		d3.select('svg').on('click', function () {
-													var dx = ~~x.copy().invert((d3.mouse(this)[0]))
-													var dy = y.copy().invert((d3.mouse(this)[1]))
-													var q = Playlist.find().fetch()
-													var closest = q .filter(function (o) { return o[d] && o})
-														.reduce(function (a,b) {
-																			return Math.abs(dy - a[d]) > Math.abs(dy - b[d]) ? b : a; 
-																		})
-													var i =(q.indexOf(closest))
-													var swap = q[i];
-													q[d] = q[dx]
-													q[dx] = swap;
-													var q = _.pluck(q, d).filter(function (d ){ return d});
-													x.domain([0, q.length])
-													chart.datum(q).transition().duration(500)
-														.attr('d',l)
-			 })
-		var drag_node = d3.behavior.drag()
-			.on('drag', function () {
-						d3.select(this).attr('cx', d3.mouse(d3.select('svg').node())[0])
-					})
-			.on('dragend', function (d) {
-						Playlist.update({_id:d._id}, {$set: {track: 1}})
-					})
-
-		var drag_line = d3.behavior.drag()
-		var l = d3.svg.line().interpolate('linear')
-		.x(function (d, i) { return x(i) })
-		.y(function (d) { return y(d) })
-		var chart = g.append('path').datum(m).attr({
-																		 fill: 'none',
-																		 'stroke-width': 1,
-																		 'opacity': .5,
-																		 stroke: "hsl(" + Math.random() * 360 + ",100%,50%)",
-																		 d:l
-																	 })
-		var nodes = g.selectAll('.node').data(m);
-		nodes.enter().append('circle').attr({
-																					opacity: .5,
-																					r : 10,
-																					fill: function () { return "hsl(" + Math.random() * 360 + ",100%,50%)"},
-																					cx: function (d,i) {return x(i) },
-																					cy: function (d,i) {return y(d) }
-																				
-}).call(drag_node)
-		var update = function () {
-			var m = _.pluck(this.results, d).filter(function (d ){ return d});
-			x.domain([0, m.length])
-			chart.datum(m).transition().duration(500)
-				.attr('d',l)
-		}
-		Playlist.find({}).observe({
-															added: update, changed: update, removed: update, moved: update
-														})
-	}
-	props.forEach(illustrate);
-	[].forEach(function (item, index) {
-									var path = 	g.insert('path', '*')
-										.datum(data).attr('d',line)
-										.attr({
-														fill: 'none',
-														'stroke-width': 15,
-														'opacity': .5,
-														stroke: "hsl(" + Math.random() * 360 + ",100%,50%)",
-														'class': item
-													})
-									update(item, (index + 5) * 10)
+			return console.log('asdfasf')
+			var dx = ~~x.copy().invert((d3.mouse(this)[0]))
+			var dy = y.copy().invert((d3.mouse(this)[1]))
+			var query = Playlist.find().fetch()
+			var closest = q .filter(function (o) { return o[property] && o})
+				.reduce(function (a,b) {
+					return Math.abs(dy - a[property]) > Math.abs(dy - b[property]) ? b : a; 
 								})
+			var i = query.indexOf(closest)
+			var swap = query[i];
+			query[property] = q[dx]
+			q[dx] = swap;
+			var query = _.pluck(query, property).filter(function (d){ return d });
+			x.domain([0, query.length])
+		})
+		var count = 0;
+		var drag_node = d3.behavior.drag()
+			.on('drag', function (d, i) {
+					count += d3.event.dx;
+					d3.select(this).attr('x', d3.mouse(d3.select(this).node())[0])
+					if (count > d.width / 2) {
+						count = 0
+						snap(this)
+					}
+			})
+			.on('dragend', function (d) { count = 0 })//Playlist.update({_id:d._id}, {$set: {track: 1}})
+		var last;
+		var nodes = g.selectAll('.node').data(query);
+		var enter = nodes.enter().append('rect')
+		enter
+		.each(function (d, i) { return d.position = i})
+		.call(drag_node)
+		.attr({
+			opacity: .5,
+			fill: function () { return "hsl(" + Math.random() * 360 + ",100%,50%)"},
+			height:function (d,i) {return 600 - y(d[property]) },
+			y: function (datum) { return y(datum[property]) },		
+		})
+		.call(update_position)
+		//.on('mouseover', function (d) { console.log(d.position, d.x)})
 
-	function update(selector, time) {
-		data.push(rand())
-		d3.select('.' + selector).datum(data)
-			.attr('transform', null)
-			.attr('d', l)
-		.transition().duration(function () {
-return 														 Math.random() * time * 5 + 10
-
-}).delay(function () { return Math.random () * 20 })
-			.ease('linear')
-			.attr('transform','translate(' + xscale(-1) + ')' )
-			.each('end', update.bind(null, selector, time))
-		data.shift()
 	}
+illustrate('energy')
 }
 Meteor.setTimeout(draw, 500);

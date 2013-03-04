@@ -53,4 +53,4 @@ var init = function() {
   setupWebAudio();
   d3.timer(draw);
 };
-window.addEventListener('load', init, false);
+// window.addEventListener('load', init, false);

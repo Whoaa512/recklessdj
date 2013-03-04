@@ -12,32 +12,40 @@
       <div class="row-fluid">
         <div class="row-fluid">
           <div class="span12">
-            <div class="span6 well light-grey ">
-              <div class="hero">
-                <h1 class="rounded-corners"><p>Reckless DJ<p></h1>
-                <p>Stay Reckless my friends</p>
-                <audio src="" autoplay controls></audio>
-                <div class="block-300-by-30px hero">
-                  <div class="hero">
-                    {{> upload_file}}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="span6">
+            <div class="span9 50percent-height">
               <svg></svg>
             </div>
+            {{> hero_box}}
           </div>
         </div>
-        <div class="row-fluid">
-          <div class="span6 light-grey long-fixed-height-with-overflow width-50">
-            {{> playlist}}
-          </div>
-          <div class="span6 row-fluid">  
-					</div>
+        {{> playlist-container}}
       </div>
     </div>
   </div>
+</template>
+
+<template name="playlist-container">
+  <div class="row-fluid">
+    <div class="span6 light-grey long-fixed-height-with-overflow width-50">
+      {{> playlist}}
+    </div>
+    <div class="span6 row-fluid"> </div>
+  </div>
+</template>
+
+<template name="hero_box">
+  <div class="span3 well light-grey ">
+    <div class="hero">
+      <h1 class="rounded-corners"><p>Reckless DJ<p></h1>
+      <p>Stay Reckless my friends</p>
+      <audio src="" autoplay controls></audio>
+      <div class="block-300-by-30px hero">
+        <div class="hero">
+          {{> upload_file}}
+        </div>
+      </div>
+    </div>
+  </div> 
 </template>
 
 
